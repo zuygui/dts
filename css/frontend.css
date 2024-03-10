@@ -1,0 +1,136 @@
+body {
+  font: normal 16px/24px "Crimson", Georgia, serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-image: url("../images/background.png");
+}
+
+#header {
+  max-width: 800px;
+  margin: 2rem auto;
+  border-radius: 5px;
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
+}
+
+#header h1 {
+  margin: 0;
+}
+
+#header a#back-to-summary {
+  color: #668cff;
+  text-decoration: none;
+}
+
+#content {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding-bottom: 4rem;
+}
+
+#content h2 {
+  margin: 0 0 1rem;
+}
+
+#content h3 {
+  margin: 0 0 1rem;
+}
+
+#content ul {
+  padding: 8;
+  margin: 0;
+}
+
+#content li {
+  padding: 0.2rem 0;
+}
+
+#content a {
+  text-decoration: none;
+  color: #008cba;
+}
+
+#content a:hover {
+  text-decoration: underline;
+}
+
+.challenge {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.note {
+  background-color: #ffc;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.page-break {
+  page-break-after: always;
+}
+
+.hljs {
+  padding: 0.6rem 2rem;
+  background: black;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  transition: all 0.2s;
+}
+
+.hljs:hover {
+  border-color: #668cff;
+}
+
+blockquote {
+  position: relative;
+  margin: 29px 0 31px 0;
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 40px;
+  margin-inline-end: 40px;
+}
+
+blockquote::before {
+  content: "“";
+  left: -7px;
+  position: absolute;
+  top: -20px;
+  font: italic 72px "Crimson", Georgia, serif;
+  color: #dee9ed;
+}
+
+blockquote::before,
+blockquote::after {
+  position: absolute;
+  top: -20px;
+  font: italic 72px "Crimson", Georgia, serif;
+  color: #dee9ed;
+}
+
+blockquote::after {
+  content: "”";
+  right: 8px;
+}
+
+blockquote cite::before {
+  content: "— ";
+  color: #dee9ed;
+}
+
+blockquote p {
+  margin: 0 48px;
+  font: italic 24px / 36px "Crimson", Georgia, serif;
+  color: #5985a6;
+}

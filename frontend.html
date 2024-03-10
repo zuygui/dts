@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frontend | Comprendre les compilateurs</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400|Source+Sans+Pro:300,400,600"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="css/prism.css" />
+    <link rel="stylesheet" href="css/frontend.css" />
+    <script src="prism.js"></script>
+  </head>
+  <body>
+    <div id="header">
+      <h1>Le Frontend - Comprendre les compilateurs</h1>
+      <a id="back-to-summary" href="/sommaire.html">➜ Retour au Sommaire</a>
+    </div>
+    <div id="content">
+      <h2>Introduction</h2>
+
+      <img
+        src="images/compiler_analysis_synthesis.jpg"
+        alt="Compiler Analysis and Synthesis"
+      />
+
+      <h3>Un Compilateur, quèsaco ?</h3>
+
+      <blockquote cite="https://fr.wikipedia.org/wiki/Compilateur">
+        <br />
+        <p>
+          "En informatique, un compilateur est un programme qui transforme un
+          code source en un code objet. Généralement, le code source est écrit
+          dans un langage de programmation (le langage source), il est de haut
+          niveau d'abstraction, et facilement compréhensible par l'humain. Le
+          code objet est généralement écrit en langage de plus bas niveau
+          (appelé langage cible), par exemple un langage d'assemblage ou langage
+          machine, afin de créer un programme exécutable par une machine."
+        </p>
+        <p>
+          <cite
+            ><a href="https://fr.wikipedia.org/wiki/Compilateur"
+              >Wikipedia</a
+            ></cite
+          >
+        </p>
+      </blockquote>
+
+      En bref, un compilateur est un programme qui prend un code (par exemple un
+      code écrit en C) et le transforme en un autre code (par exemple un code en
+      langage machine (binaire)). Il en existe de très nombreux, pour de
+      nombreux langages de programmation différents comme:
+      <ul>
+        <li>gcc pour le C</li>
+        <li>javac pour le Java</li>
+        <li>ghc pour le Haskell</li>
+        <li>et bien d'autres...</li>
+      </ul>
+
+      <h3>La Séparation Front/Back</h3>
+
+      Un compilateur est généralement séparé en deux parties:
+      <ul>
+        <li>Le Frontend</li>
+        <li>Le Backend</li>
+      </ul>
+      <br />
+      Le Frontend est la partie du compilateur qui s'occupe de la lecture du
+      code source, de l'analyse de sa syntaxe et de sa sémantique. C'est cette
+      partie qui va vérifier que le code source est correct, et le transformer
+      en une représentation intermédiaire (par exemple un arbre de syntaxe
+      abstrait (AST)). C'est cette représentation intermédiaire qui sera
+      utilisée par le Backend pour générer le code objet.
+      <br />
+      Nous nous occuperons ici du Frontend, la partie s'interressant au Backend
+      est disponible <a href="/backend.html">ici</a>.
+
+      <h2>Les Étapes du Frontend</h2>
+
+      <h3>Lecture du Code Source</h3>
+
+      La première étape du Frontend est la lecture du code source. Cette étape
+      consiste à lire le code source, caractère par caractère, et à le
+      transformer en une suite de tokens. Ces tokens sont des éléments lexicaux,
+      c'est-à-dire des éléments de base du langage (par exemple des mots-clés,
+      des identifiants, des nombres, des opérateurs, etc...). Par exemple, pour
+      le code C suivant:
+
+      <pre><code class="language-c">
+#include &lt;stdio.h&gt;
+
+int main(int argc, char** argv) {
+  printf("Hello, World!\n");
+  return 0;
+}
+      </code></pre>
+
+      La lecture du code source donnera les tokens suivants:
+
+      <pre>
+        <code>
+          PreProcInst Name: include Value: &lt;stdio.h&gt;
+          Keyword Name: int
+          Identifier Name: main
+          Punctuator Name: (
+          Keyword Name: int
+          Identifier Name: argc
+          Punctuator Name: ,
+          Keyword Name: char
+          DoublePointer Name: **
+          Identifier Name: argv
+          Punctuator Name: )
+          Punctuator Name: {
+          Keyword Name: printf
+          Punctuator Name: (
+          String Name: "Hello, World!\n"
+          Punctuator Name: )
+          Punctuator Name: ;
+          Keyword Name: return
+          Numeric Name: 0
+          Punctuator Name: ;
+          Punctuator Name: }
+        </code>
+      </pre>
+
+      <h3>Analyse Syntaxique</h3>
+
+      La deuxième étape du Frontend est l'analyse syntaxique. Cette étape
+      consiste à analyser la syntaxe du code source, c'est-à-dire à vérifier que
+      le code source est correct par rapport à la grammaire du langage. Par
+      exemple, pour le code C suivant:
+
+      <pre><code class="language-c">
+#include &lt;stdio.h&gt;
+
+int main(int argc, char** argv) {
+  printf("Hello, World!\n");
+  return 0;
+}
+    </code></pre>
+
+      L'analyse syntaxique donnera l'arbre de syntaxe abstrait (AST) suivant:
+
+      <pre>
+        <code>
+          PreProcInstruction
+          | Include
+          | | String: &lt;stdio.h&gt;
+
+          FunctionDeclaration
+          | TypeSpecifier: int
+          | Identifier: main
+          | ParameterList
+          | | ParameterDeclaration
+          | | | TypeSpecifier: int
+          | | | Identifier: argc
+          | | ParameterDeclaration
+          | | | TypeSpecifier: char
+          | | | Pointer: *
+          | | | Pointer: *
+          | | | Identifier: argv
+          | CompoundStatement
+          | | ExpressionStatement
+          | | | FunctionCall
+          | | | | Identifier: printf
+          | | | | ArgumentList
+          | | | | |  String: "Hello, World!\n"
+          | | ReturnStatement
+          | | | Numeric: 0
+        </code>
+      </pre>
+
+      <h3>Analyse Sémantique</h3>
+
+      La troisième étape du Frontend est l'analyse sémantique. Cette étape
+      consiste à analyser la sémantique du code source, c'est-à-dire à vérifier
+      que le code source est correct par rapport à la sémantique du langage. Par
+      exemple, pour le code C suivant:
+
+      <pre><code class="language-c">
+#include &lt;stdio.h&gt;
+
+int main(int argc, char** argv) {
+  printf("Hello, World!\n");
+  return 0;
+}
+</code></pre>
+
+      L'analyse sémantique vérifiera que:
+      <ul>
+        <li>
+          la fonction printf est bien déclarée (ici dans l'import de la
+          librairie stdio)
+        </li>
+        <li>la fonction printf est bien appelée avec les bons arguments</li>
+        <li>la fonction main est bien déclarée</li>
+        <li>la fonction main est bien déclarée avec les bons arguments</li>
+        <li>la fonction main est bien déclarée avec le bon type de retour</li>
+        <li>
+          la fonction main est bien déclarée avec le bon type de paramètres
+        </li>
+      </ul>
+
+      <h2>Conclusion</h2>
+
+      Le Frontend est la partie du compilateur qui s'occupe de la lecture du
+      code source, de l'analyse de sa syntaxe et de sa sémantique. C'est cette
+      partie qui va vérifier que le code source est correct, et le transformer
+      en une représentation intermédiaire (par exemple un arbre de syntaxe
+      abstrait (AST)). C'est cette représentation intermédiaire qui sera
+      utilisée par le Backend pour générer le code objet.
+
+      <h2>Références</h2>
+
+      <ul>
+        <li>
+          <a href="https://fr.wikipedia.org/wiki/Compilateur">Wikipedia</a>
+        </li>
+        <li>
+          <a
+            href="https://www.amazon.fr/Compilers-Principles-Techniques-Tools-2nd/dp/0321486811"
+            >Compilers: Principles, Techniques, and Tools</a
+          >
+        </li>
+
+        <li>
+          <a
+            href="https://www.amazon.fr/Engineering-Compiler-Keith-Cooper/dp/012088478X"
+            >Engineering a Compiler</a
+          >
+        </li>
+
+        <li>
+          <a
+            href="https://www.amazon.fr/Modern-Compiler-Implementation-Andrew-Appel/dp/0521607655"
+            >Modern Compiler Implementation</a
+          >
+        </li>
+        <hr>
+        <div>
+<a href="/backend.html">Suivant: Backend</a>
+        </div>
+    </div>
+  </body>
+</html>
