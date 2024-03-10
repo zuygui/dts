@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Backend | Comprendre les compilateurs</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400|Source+Sans+Pro:300,400,600"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="css/syntax_colorization.css" />
+    <link rel="stylesheet" href="css/pages.css" />
+    <script src="syntax_colorization.js"></script>
+  </head>
+  <body>
+    <div id="header">
+      <h1>Le Backend - Comprendre les compilateurs</h1>
+      <a id="back-to-summary" href="/sommaire.html">➜ Retour au Sommaire</a>
+    </div>
+    <div id="content">
+      <h2>Introduction</h2>
+
+      <img
+        src="images/compiler_analysis_synthesis.jpg"
+        alt="Compiler Analysis and Synthesis"
+      />
+
+      <h2>Le Backend</h2>
+
+      <p>
+        Le Backend est la partie du compilateur qui s'occupe de générer le code
+        objet. C'est-à-dire que c'est lui qui va transformer le code source en
+        un code objet.
+      </p>
+
+      <h3>Un exemple</h3>
+
+      <p>
+        Imaginons que nous ayons un code source écrit en C. Le Backend va
+        transformer ce code source en un code objet écrit en langage machine
+        (binaire). Ce code objet pourra ensuite être exécuté par une machine.
+      </p>
+
+      <h3>Les étapes du Backend</h3>
+
+      <p>Le Backend est composé de plusieurs étapes. Voici les principales:</p>
+
+      <ul>
+        <li>La génération de code intermédiaire</li>
+        <li>L'optimisation du code intermédiaire</li>
+        <li>La génération de code objet</li>
+      </ul>
+
+      <h3>Les outils du Backend</h3>
+
+      <p>
+        Pour réaliser ces étapes, le Backend utilise plusieurs outils. Parmi
+        eux, on peut citer:
+      </p>
+
+      <ul>
+        <li>Un générateur de code intermédiaire/li></li>
+        <li>Un optimiseur de code intermédiaire</li>
+        <li>Un générateur de code objet</li>
+      </ul>
+
+      <h3>LLVM</h3>
+
+      <p>
+        LLVM est un projet open-source qui fournit une suite de compilateurs
+        modulaires et réutilisables. Il est utilisé par de nombreux langages de
+        programmation pour générer du code objet.
+      </p>
+
+      <p>
+        Pour en savoir plus sur LLVM, voici leur site web:
+        <a href="https://llvm.org">llvm.org</a>
+      </p>
+
+      <h3>Exemple plus concis</h3>
+
+      <p>
+        Si nous reprenons l'AST genere par le Frontend sur la page précédente,
+        nous pouvons continuer à le transformer pour obtenir un code objet.
+        Exemple:
+      </p>
+
+      <pre>
+        <code class="language-c">
+          #include &lt;stdio.h&gt;
+
+          int main() {
+            printf("Hello, World!\n");
+            return 0;
+          }
+        </code>
+      </pre>
+
+      <blockquote cite="https://fr.wikipedia.org/wiki/Compilateur">
+        <br />
+        <img
+          src="images/asm.webp"
+          width="75%"
+          alt="exemple de code assembleur"
+        />
+        <p>
+          <cite
+            ><a href="https://fr.wikipedia.org/wiki/Compilateur"
+              >Exemple de code assembleur, Wikipedia</a
+            ></cite
+          >
+        </p>
+      </blockquote>
+
+      <p>
+        Etant donne que ce code est vraiment simple, nous allons l'abstraire
+        pour le convertir en assembleur ARM:
+      </p>
+
+      <pre>
+        <code class="language-armasm">
+.text                         ;; section de code (text) executable
+.global _start                ;; point d'entree du programme pointant sur _start
+_start:                       ;; etiquette _start    
+    mov r0, #1                ;; code de sortie
+    ldr r1, =message          ;; adresse du message
+    ldr r2, =len              ;; longueur du message
+    mov r7, #4                ;; appel systeme pour ecrire le message
+    swi 0                     ;; interruption logicielle   
+
+    mov r7, #1                ;; appel systeme pour terminer le programme
+    swi 0                     ;; interruption logicielle (fin du programme)
+
+.data                         ;; section de donnees (data) lisibles et modifiables
+message:                      ;; etiquette message  
+    .asciz "hello world\n"    ;; message
+len = .-message               ;; longueur du message
+        </code>
+      </pre>
+
+      <h3>Conclusion</h3>
+
+      <p>
+        Le Backend est la partie du compilateur qui s'occupe de générer le code
+        objet. C'est-à-dire que c'est lui qui va transformer le code source en
+        un code objet. Pour cela, il utilise plusieurs étapes et outils, dont la
+        génération de code intermédiaire, l'optimisation du code intermédiaire
+        et la génération de code objet.
+      </p>
+
+      <h3>Références</h3>
+
+      <ul>
+        <li>
+          <a href="https://en.wikipedia.org/wiki/Compiler"
+            >Compiler - Wikipedia</a
+          >
+        </li>
+        <li>
+          <a href="https://en.wikipedia.org/wiki/Intermediate_representation">
+            Intermediate Representation - Wikipedia
+          </a>
+        </li>
+        <li>
+          <a href="https://en.wikipedia.org/wiki/LLVM">LLVM - Wikipedia</a>
+        </li>
+        <li>
+          <a href="https://llvm.org">LLVM</a>
+        </li>
+      </ul>
+
+      <hr />
+      <div>
+        <a href="/frontend.html">Précedant: Frontend</a>
+        <br />
+      </div>
+    </div>
+  </body>
+</html>

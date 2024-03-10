@@ -1,5 +1,3 @@
-/* PrismJS 1.29.0
-https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+armasm+asmatmel+bash+c+git+python&plugins=line-numbers */
 var _self =
     "undefined" != typeof window
       ? window
@@ -7,14 +5,15 @@ var _self =
         self instanceof WorkerGlobalScope
       ? self
       : {},
-  Prism = (function (e) {
+  SyntaxColorization = (function (e) {
     var n = /(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,
       t = 0,
       r = {},
       a = {
-        manual: e.Prism && e.Prism.manual,
+        manual: e.SyntaxColorization && e.SyntaxColorization.manual,
         disableWorkerMessageHandler:
-          e.Prism && e.Prism.disableWorkerMessageHandler,
+          e.SyntaxColorization &&
+          e.SyntaxColorization.disableWorkerMessageHandler,
         util: {
           encode: function e(n) {
             return n instanceof i
@@ -334,7 +333,7 @@ var _self =
       (n.next = r), (r.prev = n), (e.length -= a);
     }
     if (
-      ((e.Prism = a),
+      ((e.SyntaxColorization = a),
       (i.stringify = function e(n, t) {
         if ("string" == typeof n) return n;
         if (Array.isArray(n)) {
@@ -419,9 +418,12 @@ var _self =
     }
     return a;
   })(_self);
-"undefined" != typeof module && module.exports && (module.exports = Prism),
-  "undefined" != typeof global && (global.Prism = Prism);
-(Prism.languages.markup = {
+"undefined" != typeof module &&
+  module.exports &&
+  (module.exports = SyntaxColorization),
+  "undefined" != typeof global &&
+    (global.SyntaxColorization = SyntaxColorization);
+(SyntaxColorization.languages.markup = {
   comment: { pattern: /<!--(?:(?!<!--)[\s\S])*?-->/, greedy: !0 },
   prolog: { pattern: /<\?[\s\S]+?\?>/, greedy: !0 },
   doctype: {
@@ -473,27 +475,31 @@ var _self =
     /&#x?[\da-f]{1,8};/i,
   ],
 }),
-  (Prism.languages.markup.tag.inside["attr-value"].inside.entity =
-    Prism.languages.markup.entity),
-  (Prism.languages.markup.doctype.inside["internal-subset"].inside =
-    Prism.languages.markup),
-  Prism.hooks.add("wrap", function (a) {
+  (SyntaxColorization.languages.markup.tag.inside["attr-value"].inside.entity =
+    SyntaxColorization.languages.markup.entity),
+  (SyntaxColorization.languages.markup.doctype.inside[
+    "internal-subset"
+  ].inside = SyntaxColorization.languages.markup),
+  SyntaxColorization.hooks.add("wrap", function (a) {
     "entity" === a.type &&
       (a.attributes.title = a.content.replace(/&amp;/, "&"));
   }),
-  Object.defineProperty(Prism.languages.markup.tag, "addInlined", {
+  Object.defineProperty(SyntaxColorization.languages.markup.tag, "addInlined", {
     value: function (a, e) {
       var s = {};
       (s["language-" + e] = {
         pattern: /(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,
         lookbehind: !0,
-        inside: Prism.languages[e],
+        inside: SyntaxColorization.languages[e],
       }),
         (s.cdata = /^<!\[CDATA\[|\]\]>$/i);
       var t = {
         "included-cdata": { pattern: /<!\[CDATA\[[\s\S]*?\]\]>/i, inside: s },
       };
-      t["language-" + e] = { pattern: /[\s\S]+/, inside: Prism.languages[e] };
+      t["language-" + e] = {
+        pattern: /[\s\S]+/,
+        inside: SyntaxColorization.languages[e],
+      };
       var n = {};
       (n[a] = {
         pattern: RegExp(
@@ -509,44 +515,51 @@ var _self =
         greedy: !0,
         inside: t,
       }),
-        Prism.languages.insertBefore("markup", "cdata", n);
+        SyntaxColorization.languages.insertBefore("markup", "cdata", n);
     },
   }),
-  Object.defineProperty(Prism.languages.markup.tag, "addAttribute", {
-    value: function (a, e) {
-      Prism.languages.markup.tag.inside["special-attr"].push({
-        pattern: RegExp(
-          "(^|[\"'\\s])(?:" +
-            a +
-            ")\\s*=\\s*(?:\"[^\"]*\"|'[^']*'|[^\\s'\">=]+(?=[\\s>]))",
-          "i"
-        ),
-        lookbehind: !0,
-        inside: {
-          "attr-name": /^[^\s=]+/,
-          "attr-value": {
-            pattern: /=[\s\S]+/,
-            inside: {
-              value: {
-                pattern: /(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,
-                lookbehind: !0,
-                alias: [e, "language-" + e],
-                inside: Prism.languages[e],
+  Object.defineProperty(
+    SyntaxColorization.languages.markup.tag,
+    "addAttribute",
+    {
+      value: function (a, e) {
+        SyntaxColorization.languages.markup.tag.inside["special-attr"].push({
+          pattern: RegExp(
+            "(^|[\"'\\s])(?:" +
+              a +
+              ")\\s*=\\s*(?:\"[^\"]*\"|'[^']*'|[^\\s'\">=]+(?=[\\s>]))",
+            "i"
+          ),
+          lookbehind: !0,
+          inside: {
+            "attr-name": /^[^\s=]+/,
+            "attr-value": {
+              pattern: /=[\s\S]+/,
+              inside: {
+                value: {
+                  pattern: /(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,
+                  lookbehind: !0,
+                  alias: [e, "language-" + e],
+                  inside: SyntaxColorization.languages[e],
+                },
+                punctuation: [{ pattern: /^=/, alias: "attr-equals" }, /"|'/],
               },
-              punctuation: [{ pattern: /^=/, alias: "attr-equals" }, /"|'/],
             },
           },
-        },
-      });
-    },
-  }),
-  (Prism.languages.html = Prism.languages.markup),
-  (Prism.languages.mathml = Prism.languages.markup),
-  (Prism.languages.svg = Prism.languages.markup),
-  (Prism.languages.xml = Prism.languages.extend("markup", {})),
-  (Prism.languages.ssml = Prism.languages.xml),
-  (Prism.languages.atom = Prism.languages.xml),
-  (Prism.languages.rss = Prism.languages.xml);
+        });
+      },
+    }
+  ),
+  (SyntaxColorization.languages.html = SyntaxColorization.languages.markup),
+  (SyntaxColorization.languages.mathml = SyntaxColorization.languages.markup),
+  (SyntaxColorization.languages.svg = SyntaxColorization.languages.markup),
+  (SyntaxColorization.languages.xml = SyntaxColorization.languages.extend(
+    "markup",
+    {}
+  )),
+  (SyntaxColorization.languages.ssml = SyntaxColorization.languages.xml),
+  (SyntaxColorization.languages.atom = SyntaxColorization.languages.xml),
+  (SyntaxColorization.languages.rss = SyntaxColorization.languages.xml);
 !(function (s) {
   var e =
     /(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;
@@ -603,8 +616,8 @@ var _self =
     (s.languages.css.atrule.inside.rest = s.languages.css);
   var t = s.languages.markup;
   t && (t.tag.addInlined("style", "css"), t.tag.addAttribute("style", "css"));
-})(Prism);
-Prism.languages.clike = {
+})(SyntaxColorization);
+SyntaxColorization.languages.clike = {
   comment: [
     { pattern: /(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/, lookbehind: !0, greedy: !0 },
     { pattern: /(^|[^\\:])\/\/.*/, lookbehind: !0, greedy: !0 },
@@ -627,37 +640,40 @@ Prism.languages.clike = {
   operator: /[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,
   punctuation: /[{}[\];(),.:]/,
 };
-(Prism.languages.javascript = Prism.languages.extend("clike", {
-  "class-name": [
-    Prism.languages.clike["class-name"],
-    {
-      pattern:
-        /(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,
+(SyntaxColorization.languages.javascript = SyntaxColorization.languages.extend(
+  "clike",
+  {
+    "class-name": [
+      SyntaxColorization.languages.clike["class-name"],
+      {
+        pattern:
+          /(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,
+        lookbehind: !0,
+      },
+    ],
+    keyword: [
+      { pattern: /((?:^|\})\s*)catch\b/, lookbehind: !0 },
+      {
+        pattern:
+          /(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,
+        lookbehind: !0,
+      },
+    ],
+    function:
+      /#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,
+    number: {
+      pattern: RegExp(
+        "(^|[^\\w$])(?:NaN|Infinity|0[bB][01]+(?:_[01]+)*n?|0[oO][0-7]+(?:_[0-7]+)*n?|0[xX][\\dA-Fa-f]+(?:_[\\dA-Fa-f]+)*n?|\\d+(?:_\\d+)*n|(?:\\d+(?:_\\d+)*(?:\\.(?:\\d+(?:_\\d+)*)?)?|\\.\\d+(?:_\\d+)*)(?:[Ee][+-]?\\d+(?:_\\d+)*)?)(?![\\w$])"
+      ),
       lookbehind: !0,
     },
-  ],
-  keyword: [
-    { pattern: /((?:^|\})\s*)catch\b/, lookbehind: !0 },
-    {
-      pattern:
-        /(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,
-      lookbehind: !0,
-    },
-  ],
-  function:
-    /#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,
-  number: {
-    pattern: RegExp(
-      "(^|[^\\w$])(?:NaN|Infinity|0[bB][01]+(?:_[01]+)*n?|0[oO][0-7]+(?:_[0-7]+)*n?|0[xX][\\dA-Fa-f]+(?:_[\\dA-Fa-f]+)*n?|\\d+(?:_\\d+)*n|(?:\\d+(?:_\\d+)*(?:\\.(?:\\d+(?:_\\d+)*)?)?|\\.\\d+(?:_\\d+)*)(?:[Ee][+-]?\\d+(?:_\\d+)*)?)(?![\\w$])"
-    ),
-    lookbehind: !0,
-  },
-  operator:
-    /--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/,
-})),
-  (Prism.languages.javascript["class-name"][0].pattern =
+    operator:
+      /--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/,
+  }
+)),
+  (SyntaxColorization.languages.javascript["class-name"][0].pattern =
     /(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/),
-  Prism.languages.insertBefore("javascript", "keyword", {
+  SyntaxColorization.languages.insertBefore("javascript", "keyword", {
     regex: {
       pattern: RegExp(
         "((?:^|[^$\\w\\xA0-\\uFFFF.\"'\\])\\s]|\\b(?:return|yield))\\s*)/(?:(?:\\[(?:[^\\]\\\\\r\n]|\\\\.)*\\]|\\\\.|[^/\\\\\\[\r\n])+/[dgimyus]{0,7}|(?:\\[(?:[^[\\]\\\\\r\n]|\\\\.|\\[(?:[^[\\]\\\\\r\n]|\\\\.|\\[(?:[^[\\]\\\\\r\n]|\\\\.)*\\])*\\])*\\]|\\\\.|[^/\\\\\\[\r\n])+/[dgimyus]{0,7}v[dgimyus]{0,7})(?=(?:\\s|/\\*(?:[^*]|\\*(?!/))*\\*/)*(?:$|[\r\n,.;:})\\]]|//))"
@@ -669,7 +685,7 @@ Prism.languages.clike = {
           pattern: /^(\/)[\s\S]+(?=\/[a-z]*$)/,
           lookbehind: !0,
           alias: "language-regex",
-          inside: Prism.languages.regex,
+          inside: SyntaxColorization.languages.regex,
         },
         "regex-delimiter": /^\/|\/$/,
         "regex-flags": /^[a-z]+$/,
@@ -685,30 +701,30 @@ Prism.languages.clike = {
         pattern:
           /(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,
         lookbehind: !0,
-        inside: Prism.languages.javascript,
+        inside: SyntaxColorization.languages.javascript,
       },
       {
         pattern:
           /(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,
         lookbehind: !0,
-        inside: Prism.languages.javascript,
+        inside: SyntaxColorization.languages.javascript,
       },
       {
         pattern:
           /(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,
         lookbehind: !0,
-        inside: Prism.languages.javascript,
+        inside: SyntaxColorization.languages.javascript,
       },
       {
         pattern:
           /((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,
         lookbehind: !0,
-        inside: Prism.languages.javascript,
+        inside: SyntaxColorization.languages.javascript,
       },
     ],
     constant: /\b[A-Z](?:[A-Z_]|\dx?)*\b/,
   }),
-  Prism.languages.insertBefore("javascript", "string", {
+  SyntaxColorization.languages.insertBefore("javascript", "string", {
     hashbang: { pattern: /^#!.*/, greedy: !0, alias: "comment" },
     "template-string": {
       pattern:
@@ -725,7 +741,7 @@ Prism.languages.clike = {
               pattern: /^\$\{|\}$/,
               alias: "punctuation",
             },
-            rest: Prism.languages.javascript,
+            rest: SyntaxColorization.languages.javascript,
           },
         },
         string: /[\s\S]+/,
@@ -739,7 +755,7 @@ Prism.languages.clike = {
       alias: "property",
     },
   }),
-  Prism.languages.insertBefore("javascript", "operator", {
+  SyntaxColorization.languages.insertBefore("javascript", "operator", {
     "literal-property": {
       pattern:
         /((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,
@@ -747,14 +763,14 @@ Prism.languages.clike = {
       alias: "property",
     },
   }),
-  Prism.languages.markup &&
-    (Prism.languages.markup.tag.addInlined("script", "javascript"),
-    Prism.languages.markup.tag.addAttribute(
+  SyntaxColorization.languages.markup &&
+    (SyntaxColorization.languages.markup.tag.addInlined("script", "javascript"),
+    SyntaxColorization.languages.markup.tag.addAttribute(
       "on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)",
       "javascript"
     )),
-  (Prism.languages.js = Prism.languages.javascript);
-(Prism.languages.armasm = {
+  (SyntaxColorization.languages.js = SyntaxColorization.languages.javascript);
+(SyntaxColorization.languages.armasm = {
   comment: { pattern: /;.*/, greedy: !0 },
   string: {
     pattern: /"(?:[^"\r\n]|"")*"/,
@@ -784,8 +800,9 @@ Prism.languages.clike = {
   operator: /<>|<<|>>|&&|\|\||[=!<>/]=?|[+\-*%#?&|^]|:[A-Z]+:/,
   punctuation: /[()[\],]/,
 }),
-  (Prism.languages["arm-asm"] = Prism.languages.armasm);
-Prism.languages.asmatmel = {
+  (SyntaxColorization.languages["arm-asm"] =
+    SyntaxColorization.languages.armasm);
+SyntaxColorization.languages.asmatmel = {
   comment: { pattern: /;.*/, greedy: !0 },
   string: { pattern: /(["'`])(?:\\.|(?!\1)[^\\\r\n])*\1/, greedy: !0 },
   constant: /\b(?:PORT[A-Z]|DDR[A-Z]|(?:DD|P)[A-Z](?:\d|[0-2]\d|3[01]))\b/,
@@ -971,8 +988,8 @@ Prism.languages.asmatmel = {
   )
     o[s[i]] = e.languages.bash[s[i]];
   (e.languages.sh = e.languages.bash), (e.languages.shell = e.languages.bash);
-})(Prism);
-(Prism.languages.c = Prism.languages.extend("clike", {
+})(SyntaxColorization);
+(SyntaxColorization.languages.c = SyntaxColorization.languages.extend("clike", {
   comment: {
     pattern:
       /\/\/(?:[^\r\n\\]|\\(?:\r\n?|\n|(?![\r\n])))*|\/\*[\s\S]*?(?:\*\/|$)/,
@@ -991,10 +1008,10 @@ Prism.languages.asmatmel = {
     /(?:\b0x(?:[\da-f]+(?:\.[\da-f]*)?|\.[\da-f]+)(?:p[+-]?\d+)?|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?)[ful]{0,4}/i,
   operator: />>=?|<<=?|->|([-+&|:])\1|[?:~]|[-+*/%&|^!=<>]=?/,
 })),
-  Prism.languages.insertBefore("c", "string", {
+  SyntaxColorization.languages.insertBefore("c", "string", {
     char: { pattern: /'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n]){0,32}'/, greedy: !0 },
   }),
-  Prism.languages.insertBefore("c", "string", {
+  SyntaxColorization.languages.insertBefore("c", "string", {
     macro: {
       pattern:
         /(^[\t ]*)#\s*[a-z](?:[^\r\n\\/]|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/|\\(?:\r\n|[\s\S]))*/im,
@@ -1004,10 +1021,10 @@ Prism.languages.asmatmel = {
       inside: {
         string: [
           { pattern: /^(#\s*include\s*)<[^>]+>/, lookbehind: !0 },
-          Prism.languages.c.string,
+          SyntaxColorization.languages.c.string,
         ],
-        char: Prism.languages.c.char,
-        comment: Prism.languages.c.comment,
+        char: SyntaxColorization.languages.c.char,
+        comment: SyntaxColorization.languages.c.comment,
         "macro-name": [
           { pattern: /(^#\s*define\s+)\w+\b(?!\()/i, lookbehind: !0 },
           {
@@ -1023,16 +1040,19 @@ Prism.languages.asmatmel = {
         },
         "directive-hash": /^#/,
         punctuation: /##|\\(?=[\r\n])/,
-        expression: { pattern: /\S[\s\S]*/, inside: Prism.languages.c },
+        expression: {
+          pattern: /\S[\s\S]*/,
+          inside: SyntaxColorization.languages.c,
+        },
       },
     },
   }),
-  Prism.languages.insertBefore("c", "function", {
+  SyntaxColorization.languages.insertBefore("c", "function", {
     constant:
       /\b(?:EOF|NULL|SEEK_CUR|SEEK_END|SEEK_SET|__DATE__|__FILE__|__LINE__|__TIMESTAMP__|__TIME__|__func__|stderr|stdin|stdout)\b/,
   }),
-  delete Prism.languages.c.boolean;
-Prism.languages.git = {
+  delete SyntaxColorization.languages.c.boolean;
+SyntaxColorization.languages.git = {
   comment: /^#.*/m,
   deleted: /^[-–].*/m,
   inserted: /^\+.*/m,
@@ -1041,7 +1061,7 @@ Prism.languages.git = {
   coord: /^@@.*@@$/m,
   "commit-sha1": /^commit \w{40}$/m,
 };
-(Prism.languages.python = {
+(SyntaxColorization.languages.python = {
   comment: { pattern: /(^|[^\\])#.*/, lookbehind: !0, greedy: !0 },
   "string-interpolation": {
     pattern:
@@ -1094,15 +1114,18 @@ Prism.languages.git = {
   operator: /[-+%=]=?|!=|:=|\*\*?=?|\/\/?=?|<[<=>]?|>[=>]?|[&|^~]/,
   punctuation: /[{}[\];(),.:]/,
 }),
-  (Prism.languages.python[
+  (SyntaxColorization.languages.python[
     "string-interpolation"
-  ].inside.interpolation.inside.rest = Prism.languages.python),
-  (Prism.languages.py = Prism.languages.python);
+  ].inside.interpolation.inside.rest = SyntaxColorization.languages.python),
+  (SyntaxColorization.languages.py = SyntaxColorization.languages.python);
 !(function () {
-  if ("undefined" != typeof Prism && "undefined" != typeof document) {
+  if (
+    "undefined" != typeof SyntaxColorization &&
+    "undefined" != typeof document
+  ) {
     var e = "line-numbers",
       n = /\n(?!$)/g,
-      t = (Prism.plugins.lineNumbers = {
+      t = (SyntaxColorization.plugins.lineNumbers = {
         getLine: function (n, t) {
           if ("PRE" === n.tagName && n.classList.contains(e)) {
             var i = n.querySelector(".line-numbers-rows");
@@ -1130,7 +1153,7 @@ Prism.languages.git = {
           )
         ));
     }),
-      Prism.hooks.add("complete", function (t) {
+      SyntaxColorization.hooks.add("complete", function (t) {
         if (t.code) {
           var i = t.element,
             s = i.parentNode;
@@ -1138,7 +1161,7 @@ Prism.languages.git = {
             s &&
             /pre/i.test(s.nodeName) &&
             !i.querySelector(".line-numbers-rows") &&
-            Prism.util.isActive(i, e)
+            SyntaxColorization.util.isActive(i, e)
           ) {
             i.classList.remove(e), s.classList.add(e);
             var l,
@@ -1157,11 +1180,11 @@ Prism.languages.git = {
                   (parseInt(s.getAttribute("data-start"), 10) - 1)),
               t.element.appendChild(l),
               r([s]),
-              Prism.hooks.run("line-numbers", t);
+              SyntaxColorization.hooks.run("line-numbers", t);
           }
         }
       }),
-      Prism.hooks.add("line-numbers", function (e) {
+      SyntaxColorization.hooks.add("line-numbers", function (e) {
         (e.plugins = e.plugins || {}), (e.plugins.lineNumbers = !0);
       });
   }
