@@ -1,0 +1,86 @@
+@font-face {
+  font-family: "Ninjago";
+  src: url("../fonts/ninjago.ttf");
+}
+
+body {
+  background-image: url("../images/bg.webp");
+  background-size: cover;
+  background-position: center;
+  font-family: "Ninjago", cursive;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+header {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  color: white;
+  font-weight: bold !important;
+  font-size: 1.5rem;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 960px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex-basis: calc(33.333% - 20px);
+  margin: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card h2 {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 1.25rem;
+  margin: 0;
+  padding: 10px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.card p {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: white;
+  font-size: 0.875rem;
+  margin: 0;
+  padding: 10px;
+  height: 100px;
+  overflow: hidden;
+  color: black;
+}
+
+.card a {
+  background-color: #4caf50;
+  color: white;
+  display: block;
+  font-size: 1rem;
+  margin: 10px 0;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+}
